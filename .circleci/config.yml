@@ -73,15 +73,15 @@ jobs:
      - checkout
      - run:
          command: source /okta_venv/bin/activate;
-           ./scripts/run_terraform.sh $TRAINING_COHORT monitoring_dashboard plan;
+                  ./scripts/run_terraform.sh $TRAINING_COHORT monitoring_dashboard plan;
 
  applyDashboard:
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-          command: source /okta_venv/bin/activate;
-            ./scripts/run_terraform.sh $TRAINING_COHORT monitoring_dashboard apply -input=false -auto-approve;
+   <<: *defaults
+   steps:
+     - checkout
+     - run:
+         command: source /okta_venv/bin/activate;
+                  ./scripts/run_terraform.sh $TRAINING_COHORT monitoring_dashboard apply -input=false -auto-approve;
 
 workflows:
   version: 2
