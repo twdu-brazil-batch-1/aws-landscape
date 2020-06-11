@@ -60,9 +60,9 @@ resource "aws_cloudwatch_dashboard" "main" {
         {
             "type": "metric",
             "x": 12,
-            "y": 3,
+            "y": 9,
             "width": 12,
-            "height": 9,
+            "height": 3,
             "properties": {
                 "metrics": [
                     [ "AWS/ElasticMapReduce", "HDFSUtilization", "JobFlowId", "${data.terraform_remote_state.training_emr_cluster.emr_cluster_id}" ],
@@ -160,6 +160,23 @@ resource "aws_cloudwatch_dashboard" "main" {
                         "max": 100
                     }
                 }
+            }
+        },
+        {
+            "type": "metric",
+            "x": 12,
+            "y": 9,
+            "width": 12,
+            "height": 3,
+            "properties": {
+                "metrics": [
+                    [ "TwoWheelers", "files failed to update", "Monitoring CSV File", "read_csv_hdfs" ]
+                ],
+                "view": "singleValue",
+                "stacked": false,
+                "region": "${var.aws_region}",
+                "period": 300,
+                "title": "CSV Update Status"
             }
         }
     ]
