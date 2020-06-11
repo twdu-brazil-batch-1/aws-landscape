@@ -67,7 +67,15 @@ jobs:
                  ./scripts/run_terraform.sh $TRAINING_COHORT bastion destroy -input=false -auto-approve;
                  ./scripts/run_terraform.sh $TRAINING_COHORT base_networking destroy -input=false -auto-approve;
 
- deployDashboard:
+ planDashboard:
+   <<: *defaults
+   steps:
+     - checkout
+     - run:
+         command: source /okta_venv/bin/activate;
+           ./scripts/run_terraform.sh $TRAINING_COHORT monitoring_dashboard plan -input=false -auto-approve;
+
+ applyDashboard:
     <<: *defaults
     steps:
       - checkout
@@ -120,3 +128,11 @@ workflows:
       - destroyProductionEnvironment:
           requires:
             - approveDestroyProductionEnvironment
+  dashboard:
+      jobs:
+        - planDashboard
+
+        - applyDashboard:
+          type: approval
+          requires:
+            - planDashboard
